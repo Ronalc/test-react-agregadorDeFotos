@@ -5,6 +5,10 @@
     <title></title>
     <script src="http://fb.me/react-0.13.3.js"></script>
     <script src="http://fb.me/JSXTransformer-0.13.3.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
     <link
     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     rel="stylesheet"
@@ -35,6 +39,19 @@
           return {
             ElementosLista: ["https://d2e1tcbrruuso7.cloudfront.net/static/images/web-dev-icon.a6e158d1aa09.png"], text: ''
           };
+        },
+        componentWillMount: function() {
+          this.actualizarInformacion();
+        },
+        actualizarInformacion: function() {
+          var urls = [];
+          $.get('http://127.0.0.1:8030/imagenes', function(resultado) {
+            for (var i = 0; i < resultado.length; i++) {
+              urls.push(resultado[i].url)
+            }
+            console.log(urls);
+            this.setState({ElementosLista:urls});
+          }.bind(this));
         },
         EstadoBorrar: function(ElementoAborrar) {
           var LosElementosLista = this.state.ElementosLista;
