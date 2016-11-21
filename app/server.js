@@ -8,8 +8,9 @@ const bodyParser = require('body-parser');
 const Image = require('./models/Image');
 const app = express()
 
+
 app.use(bodyParser.json())
-//app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: true}))
 
 
 mongoose.connect('mongodb://localhost/react-agregadorDeFotos', (err,res) => {
@@ -21,14 +22,15 @@ app.use('/static', express.static('public'))
 
 app.get('/imagenes', (req,res) => {
   console.log('GET/')
-  Image.find({},{"url":1,"_id":0},(err, images) => {
+  Image.find({},{"url":1,"_id":1},(err, images) => {
     if(err) return res.status(500).json({error:true, message:err})
     console.log(images);
     res.status(200).json(images)
   })
 })
 app.post('/imagenes',(req,res) => {
-  console.log(req.body.url);
+  console.log('POST/');
+  console.log(req.body);
   let image = new Image({
     url:req.body.url
   })
